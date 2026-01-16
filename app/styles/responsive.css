@@ -1,0 +1,82 @@
+/* =========================
+   Responsive Styles
+   ========================= */
+
+/* Small screens (320px and up) */
+@media (min-width: 320px) {
+  .header {
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+
+  .header__right {
+    flex-wrap: wrap;
+  }
+
+  .dialog__content {
+    width: 95%;
+    padding: var(--spacing-md);
+  }
+}
+
+/* Medium screens (768px and up) */
+@media (min-width: 768px) {
+  .header {
+    flex-wrap: nowrap;
+  }
+
+  .header__right {
+    flex-wrap: nowrap;
+  }
+
+  .dialog__content {
+    width: 90%;
+    padding: var(--spacing-lg);
+  }
+
+  .folder-item__header {
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  .prompt-item {
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+}
+
+/* Large screens (1024px and up) */
+@media (min-width: 1024px) {
+  .main-content {
+    padding: var(--spacing-lg);
+  }
+
+  .folders-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .dialog__content {
+    max-width: 600px;
+  }
+}
+
+/* Focus styles for accessibility */
+.btn:focus,
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus,
+.folder-item__action:focus,
+.prompt-item__action:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

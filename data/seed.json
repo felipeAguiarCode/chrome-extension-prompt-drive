@@ -1,0 +1,49 @@
+{
+  "folders": [
+    { "id": "folder-1", "name": "Marketing", "createdAt": 1704067200000, "updatedAt": 1704067200000 },
+    { "id": "folder-2", "name": "Desenvolvimento", "createdAt": 1704153600000, "updatedAt": 1704153600000 },
+    { "id": "folder-3", "name": "Suporte", "createdAt": 1704240000000, "updatedAt": 1704240000000 }
+  ],
+  "prompts": [
+    {
+      "id": "prompt-1",
+      "folderId": "folder-1",
+      "nome": "Post para Redes Sociais",
+      "conteudo": "Crie um post engajador para [plataforma] sobre [tema]. Inclua uma chamada para ação clara e use uma linguagem [tom].",
+      "createdAt": 1704067200000,
+      "updatedAt": 1704067200000
+    },
+    {
+      "id": "prompt-2",
+      "folderId": "folder-1",
+      "nome": "Email Marketing",
+      "conteudo": "Escreva um email de marketing para promover [produto/serviço]. O email deve ser persuasivo, mas não agressivo, e destacar os principais benefícios.",
+      "createdAt": 1704070800000,
+      "updatedAt": 1704070800000
+    },
+    {
+      "id": "prompt-3",
+      "folderId": "folder-2",
+      "nome": "Revisão de Código",
+      "conteudo": "Revise o seguinte código [código] e forneça feedback sobre: performance, segurança, legibilidade e boas práticas.",
+      "createdAt": 1704153600000,
+      "updatedAt": 1704153600000
+    },
+    {
+      "id": "prompt-4",
+      "folderId": "folder-2",
+      "nome": "Documentação de API",
+      "conteudo": "Crie documentação completa para a API [nome]. Inclua exemplos de requisições, respostas e casos de uso.",
+      "createdAt": 1704157200000,
+      "updatedAt": 1704157200000
+    },
+    {
+      "id": "prompt-5",
+      "folderId": "folder-3",
+      "nome": "Resposta de Suporte",
+      "conteudo": "Crie uma resposta profissional e empática para o seguinte problema do cliente: [descrição do problema]. A resposta deve ser clara e oferecer uma solução.",
+      "createdAt": 1704240000000,
+      "updatedAt": 1704240000000
+    }
+  ]
+}

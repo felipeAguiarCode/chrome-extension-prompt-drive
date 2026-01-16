@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Prompt DRIVE",
+  "version": "1.0.0",
+  "description": "Gerenciador de prompts para Chrome",
+  "permissions": ["sidePanel", "activeTab", "scripting", "tabs"],
+  "host_permissions": ["https://www.sample.com/*"],
+  "side_panel": {
+    "default_path": "index.html"
+  },
+  "action": {
+    "default_title": "Abrir Prompt DRIVE"
+  }
+}
