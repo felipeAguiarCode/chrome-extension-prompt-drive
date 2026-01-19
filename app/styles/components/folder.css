@@ -1,0 +1,121 @@
+/* =========================
+   Folder Item
+   ========================= */
+
+.folder-item {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 0;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.folder-item:hover {
+  box-shadow: none;
+}
+
+.folder-item__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+  cursor: pointer;
+  user-select: none;
+  background-color: var(--color-bg-folder);
+  margin-bottom: 2px;
+}
+
+.folder-item__info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex: 1;
+}
+
+.folder-item__chevron {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  transition: transform 0.2s ease;
+}
+
+.folder-item__chevron svg {
+  width: 100%;
+  height: 100%;
+}
+
+.folder-item[data-expanded="true"] .folder-item__chevron {
+  transform: rotate(180deg);
+}
+
+.folder-item__icon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+}
+
+.folder-item__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.folder-item__name {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--color-text);
+}
+
+.folder-item__count {
+  color: var(--color-text-light);
+  font-size: 13px;
+  margin-left: var(--spacing-xs);
+}
+
+.folder-item__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.folder-item__action {
+  padding: var(--spacing-xs);
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  min-width: 28px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  color: var(--color-text);
+}
+
+.folder-item__action svg {
+  width: 16px;
+  height: 16px;
+}
+
+.folder-item__action:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.folder-item__content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.folder-item__content--expanded {
+  max-height: 5000px;
+  padding: 0 var(--spacing-md) var(--spacing-md);
+}

@@ -9,27 +9,30 @@
 }
 
 :root {
-  --color-primary: #4285f4;
-  --color-primary-dark: #1967d2;
-  --color-secondary: #5f6368;
-  --color-danger: #ea4335;
-  --color-success: #34a853;
-  --color-warning: #fbbc04;
-  --color-text: #202124;
-  --color-text-light: #5f6368;
-  --color-border: #dadce0;
-  --color-bg: #ffffff;
-  --color-bg-light: #f8f9fa;
-  --color-bg-hover: #f1f3f4;
-  --color-shadow: rgba(0, 0, 0, 0.1);
-  --color-shadow-hover: rgba(0, 0, 0, 0.15);
+  --color-primary: #28A745;
+  --color-primary-dark: #218838;
+  --color-secondary: #6c757d;
+  --color-danger: #dc3545;
+  --color-success: #28A745;
+  --color-warning: #ffc107;
+  --color-text: #ffffff;
+  --color-text-light: #9ca3af;
+  --color-text-secondary: #d1d5db;
+  --color-border: #374151;
+  --color-bg: #000000;
+  --color-bg-main: #202123;
+  --color-bg-folder: #282A2E;
+  --color-bg-prompt: #343541;
+  --color-bg-hover: #40414f;
+  --color-shadow: rgba(0, 0, 0, 0.3);
+  --color-shadow-hover: rgba(0, 0, 0, 0.4);
   --color-premium: #ffa500;
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
   --spacing-lg: 24px;
   --spacing-xl: 32px;
-  --border-radius: 8px;
+  --border-radius: 6px;
   --transition: all 0.2s ease;
 }
 
@@ -38,7 +41,7 @@ body {
   font-size: 14px;
   line-height: 1.5;
   color: var(--color-text);
-  background-color: var(--color-bg);
+  background-color: var(--color-bg-main);
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -53,8 +56,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--spacing-md);
-  border-bottom: 1px solid var(--color-border);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: none;
   background-color: var(--color-bg);
   flex-shrink: 0;
   min-height: 64px;
@@ -62,30 +65,53 @@ body {
 
 .header__left {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.header__left-top {
+  display: flex;
   align-items: center;
   gap: var(--spacing-sm);
 }
 
 .logo {
-  font-size: 32px;
-  line-height: 1;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+}
+
+.logo svg {
+  width: 100%;
+  height: 100%;
 }
 
 .header__title {
   font-size: 18px;
   font-weight: 600;
   color: var(--color-text);
+  margin: 0;
+}
+
+.header__slogan {
+  font-size: 12px;
+  color: var(--color-text-light);
+  margin-top: 2px;
 }
 
 .header__right {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
 }
 
 .header__counter {
   padding: var(--spacing-xs) var(--spacing-md);
-  background-color: var(--color-bg-light);
+  background-color: transparent;
   border-radius: var(--border-radius);
   font-weight: 600;
   font-size: 13px;
@@ -99,8 +125,32 @@ body {
 .main-content {
   flex: 1;
   overflow-y: auto;
-  padding: var(--spacing-md);
-  background-color: var(--color-bg-light);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--color-bg-main);
+}
+
+/* Custom Scrollbar */
+.main-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background-color: var(--color-text-light);
+  border-radius: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-text-secondary);
+}
+
+/* Firefox scrollbar */
+.main-content {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-text-light) transparent;
 }
 
 .folders-container {
@@ -113,8 +163,8 @@ body {
 
 .footer {
   padding: var(--spacing-md);
-  border-top: 1px solid var(--color-border);
-  background-color: var(--color-bg);
+  border-top: none;
+  background-color: var(--color-bg-main);
   flex-shrink: 0;
   display: flex;
   justify-content: center;
@@ -133,7 +183,7 @@ body {
   justify-content: center;
   padding: var(--spacing-xl);
   text-align: center;
-  color: var(--color-text-light);
+  color: var(--color-text-secondary);
   min-height: 200px;
 }
 
@@ -166,8 +216,8 @@ body {
   bottom: var(--spacing-lg);
   left: 50%;
   transform: translateX(-50%) translateY(100px);
-  background-color: var(--color-text);
-  color: var(--color-bg);
+  background-color: var(--color-bg-folder);
+  color: var(--color-text);
   padding: var(--spacing-md) var(--spacing-lg);
   border-radius: var(--border-radius);
   box-shadow: 0 4px 12px var(--color-shadow);
@@ -176,6 +226,7 @@ body {
   transition: var(--transition);
   max-width: 90%;
   text-align: center;
+  border: 1px solid var(--color-border);
 }
 
 .toast--show {

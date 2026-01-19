@@ -1,0 +1,105 @@
+/* =========================
+   Buttons
+   ========================= */
+
+.btn {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  background-color: transparent;
+  color: var(--color-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  min-height: 36px;
+  min-width: 36px;
+}
+
+.btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn--primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btn--primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.btn--secondary {
+  background-color: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.btn--secondary:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.btn--danger {
+  background-color: var(--color-danger);
+  color: white;
+}
+
+.btn--danger:hover {
+  background-color: #c5221f;
+}
+
+.btn--icon {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 14px;
+  gap: var(--spacing-xs);
+}
+
+.btn--icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.btn--primary svg {
+  width: 18px;
+  height: 18px;
+}
+
+.btn--key {
+  color: #ffd700;
+}
+
+.btn--key svg {
+  color: #ffd700;
+  stroke: #ffd700;
+}
+
+.btn--key:hover {
+  background-color: rgba(255, 215, 0, 0.1);
+}
+
+.btn--key:hover svg {
+  color: #ffed4e;
+  stroke: #ffed4e;
+}
+
+.btn--premium-status {
+  color: #28A745;
+}
+
+.btn--premium-status svg {
+  color: #28A745;
+  stroke: #28A745;
+}
+
+.btn--premium-status:hover {
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+.btn--premium-status:hover svg {
+  color: #34ce57;
+  stroke: #34ce57;
+}

@@ -1,0 +1,23 @@
+/* =========================
+   Plan Badge
+   ========================= */
+
+.plan-badge {
+  padding: 0;
+  border-radius: 0;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: none;
+}
+
+.plan-badge--free {
+  background-color: transparent;
+  color: var(--color-text);
+}
+
+.plan-badge--premium {
+  background-color: transparent;
+  color: var(--color-text);
+  border: 1px solid #28A745;
+  padding: var(--spacing-xs) var(--spacing-md);
+}
