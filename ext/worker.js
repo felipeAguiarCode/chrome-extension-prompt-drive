@@ -3,8 +3,12 @@
 // =========================
 
 // Background worker for Chrome Extension
-// Currently empty - can be extended for background tasks if needed
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log('Prompt DRIVE installed');
+});
+
+// Abrir sidepanel quando clicar no ícone da extensão
+chrome.action.onClicked.addListener((tab) => {
+  chrome.sidePanel.open({ windowId: tab.windowId });
 });

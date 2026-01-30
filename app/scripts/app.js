@@ -4,18 +4,187 @@
 
 const app = {
   async init() {
+    // Criar cliente Supabase
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     window.supabaseClient = supabase;
 
-    // Initialize renderer subscription
-    renderer.initialize();
+    // Verificar token existente
+    const token = await api.getStoredToken();
 
-    // Attach event listeners
-    this.attachEventListeners();
+    if (!token) {
+      this.showAuthScreen();
+      this.attachAuthListeners();
+      return;
+    }
 
-    // Initialize application
-    await engine.initialize();
+    // Configurar sessao do Supabase com o token
+    try {
+      await supabase.auth.setSession({ access_token: token, refresh_token: '' });
+    } catch (error) {
+      console.warn('Failed to set session:', error);
+      await api.clearToken();
+      this.showAuthScreen();
+      this.attachAuthListeners();
+      return;
+    }
+
+    // Tentar inicializar aplicacao
+    try {
+      renderer.initialize();
+      this.attachEventListeners();
+      await engine.initialize();
+      this.showAppScreen();
+    } catch (error) {
+      console.error('Error initializing app:', error);
+      // Token invalido ou expirado
+      await api.clearToken();
+      this.showAuthScreen();
+      this.attachAuthListeners();
+      engine.showToast(TOAST_MESSAGES.sessionExpired);
+    }
   },
+
+  // =========================
+  // Screen Control Methods
+  // =========================
+
+  showAuthScreen() {
+    document.querySelector(DOM_IDS.authScreen).style.display = 'flex';
+    document.querySelector(DOM_IDS.appScreen).style.display = 'none';
+    document.querySelector(DOM_IDS.loginView).style.display = 'block';
+    document.querySelector(DOM_IDS.signupView).style.display = 'none';
+    document.querySelector(DOM_IDS.redirectingView).style.display = 'none';
+  },
+
+  showAppScreen() {
+    document.querySelector(DOM_IDS.authScreen).style.display = 'none';
+    document.querySelector(DOM_IDS.appScreen).style.display = 'flex';
+  },
+
+  showSignupView() {
+    document.querySelector(DOM_IDS.loginView).style.display = 'none';
+    document.querySelector(DOM_IDS.signupView).style.display = 'block';
+    document.querySelector(DOM_IDS.redirectingView).style.display = 'none';
+  },
+
+  showLoginView() {
+    document.querySelector(DOM_IDS.loginView).style.display = 'block';
+    document.querySelector(DOM_IDS.signupView).style.display = 'none';
+    document.querySelector(DOM_IDS.redirectingView).style.display = 'none';
+  },
+
+  showRedirecting() {
+    document.querySelector(DOM_IDS.loginView).style.display = 'none';
+    document.querySelector(DOM_IDS.signupView).style.display = 'none';
+    document.querySelector(DOM_IDS.redirectingView).style.display = 'flex';
+  },
+
+  async handleLogout() {
+    await api.clearToken();
+    // Limpar sessao do Supabase
+    if (window.supabaseClient) {
+      await window.supabaseClient.auth.signOut();
+    }
+    this.showAuthScreen();
+    this.attachAuthListeners();
+  },
+
+  // =========================
+  // Auth Event Listeners
+  // =========================
+
+  attachAuthListeners() {
+    const loginForm = document.querySelector(DOM_IDS.loginForm);
+    const signupForm = document.querySelector(DOM_IDS.signupForm);
+    const btnShowSignup = document.querySelector(DOM_IDS.btnShowSignup);
+    const btnShowLogin = document.querySelector(DOM_IDS.btnShowLogin);
+
+    // Login form submission
+    if (loginForm) {
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+        const submitBtn = loginForm.querySelector('button[type="submit"]');
+
+        submitBtn.classList.add('btn--loading');
+        submitBtn.disabled = true;
+
+        const result = await api.doLogin(email, password);
+
+        if (result.success) {
+          engine.showToast(TOAST_MESSAGES.loginSuccess);
+          this.showRedirecting();
+
+          // Configurar sessao e reinicializar app
+          try {
+            await window.supabaseClient.auth.setSession({
+              access_token: result.data.access_token,
+              refresh_token: result.data.refresh_token || ''
+            });
+            renderer.initialize();
+            this.attachEventListeners();
+            await engine.initialize();
+            this.showAppScreen();
+          } catch (error) {
+            console.error('Error after login:', error);
+            engine.showToast(TOAST_MESSAGES.authError);
+            this.showLoginView();
+          }
+        } else {
+          engine.showToast(result.error || TOAST_MESSAGES.loginError);
+        }
+
+        submitBtn.classList.remove('btn--loading');
+        submitBtn.disabled = false;
+      });
+    }
+
+    // Signup form submission
+    if (signupForm) {
+      signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = e.target.name.value;
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+        const submitBtn = signupForm.querySelector('button[type="submit"]');
+
+        submitBtn.classList.add('btn--loading');
+        submitBtn.disabled = true;
+
+        const result = await api.createUser(email, password, name);
+
+        if (result.success) {
+          engine.showToast(TOAST_MESSAGES.signupSuccess);
+          this.showRedirecting();
+          // Aguardar um pouco e voltar ao login
+          setTimeout(() => {
+            this.showLoginView();
+            signupForm.reset();
+          }, 2000);
+        } else {
+          engine.showToast(result.error || TOAST_MESSAGES.signupError);
+        }
+
+        submitBtn.classList.remove('btn--loading');
+        submitBtn.disabled = false;
+      });
+    }
+
+    // Toggle entre login e signup
+    if (btnShowSignup) {
+      btnShowSignup.addEventListener('click', () => this.showSignupView());
+    }
+
+    if (btnShowLogin) {
+      btnShowLogin.addEventListener('click', () => this.showLoginView());
+    }
+  },
+
+  // =========================
+  // App Event Listeners
+  // =========================
+
 
   attachEventListeners() {
     // Header buttons
@@ -23,6 +192,7 @@ const app = {
     const btnCreatePrompt = document.querySelector(DOM_IDS.btnCreatePrompt);
     const btnLicenseKey = document.querySelector(DOM_IDS.btnLicenseKey);
     const btnImportFolder = document.querySelector(DOM_IDS.btnImportFolder);
+    const btnLogout = document.querySelector(DOM_IDS.btnLogout);
 
     if (btnCreateFolder) {
       btnCreateFolder.addEventListener('click', () => {
@@ -58,6 +228,10 @@ const app = {
         }
         engine.openDialog('importDialog');
       });
+    }
+
+    if (btnLogout) {
+      btnLogout.addEventListener('click', () => this.handleLogout());
     }
 
     // Dialog forms

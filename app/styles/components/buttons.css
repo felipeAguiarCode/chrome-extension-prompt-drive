@@ -103,3 +103,20 @@
   color: #34ce57;
   stroke: #34ce57;
 }
+
+.btn--text {
+  background: none;
+  border: none;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-text-light);
+  min-height: auto;
+  min-width: auto;
+}
+
+.btn--text:hover {
+  background: none;
+  color: var(--color-text);
+  text-decoration: underline;
+}

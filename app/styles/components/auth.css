@@ -1,0 +1,143 @@
+/* =========================
+   Auth Styles
+   ========================= */
+
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--color-bg-main);
+  padding: var(--spacing-md);
+}
+
+.auth-card {
+  background-color: var(--color-bg-folder);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xl);
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 32px var(--color-shadow);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.auth-header .logo {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto var(--spacing-md);
+  color: var(--color-text);
+}
+
+.auth-header .logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+.auth-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 var(--spacing-xs);
+}
+
+.auth-header p {
+  font-size: 14px;
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.auth-form .form-actions {
+  margin-top: var(--spacing-sm);
+}
+
+.btn--full {
+  width: 100%;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.auth-link {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 14px;
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  transition: var(--transition);
+}
+
+.auth-link:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+/* Redirecting View */
+.auth-card--redirecting {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  min-height: 200px;
+}
+
+.auth-card--redirecting .spinner {
+  margin-bottom: 0;
+}
+
+.auth-card--redirecting p {
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+/* App Screen Layout */
+#appScreen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Auth Error State */
+.auth-error {
+  color: var(--color-danger);
+  font-size: 13px;
+  text-align: center;
+  margin-top: var(--spacing-sm);
+}
+
+/* Loading state for buttons */
+.btn--loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.btn--loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-left: var(--spacing-sm);
+}

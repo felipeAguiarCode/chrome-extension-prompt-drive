@@ -17,14 +17,30 @@ const SUPABASE_ANON_KEY = 'sb_publishable_j4obQ3BcN9ZF9DvwmBMCtg_UT4i6ZLu';
 // ====================================================
 const SALES_LANDING_PAGE_URL = 'https://www.sample.com';
 
+// Constants Storage Keys
+// ====================================================
+const STORAGE_KEY_ACCESS_TOKEN = 'USER_ACCESS_TOKEN';
+
 
 // Constants Documents IDS
 // ====================================================
 const DOM_IDS = {
+  // Auth
+  authScreen: '#authScreen',
+  appScreen: '#appScreen',
+  loginView: '#loginView',
+  signupView: '#signupView',
+  redirectingView: '#redirectingView',
+  loginForm: '#loginForm',
+  signupForm: '#signupForm',
+  btnShowSignup: '#btnShowSignup',
+  btnShowLogin: '#btnShowLogin',
+  // App
   btnCreateFolder: '#btnCreateFolder',
   btnCreatePrompt: '#btnCreatePrompt',
   btnLicenseKey: '#btnLicenseKey',
   btnImportFolder: '#btnImportFolder',
+  btnLogout: '#btnLogout',
   promptCounter: '#promptCounter',
   userPlanBadge: '#userPlanBadge',
   folderDialog: '#folderDialog',
@@ -42,20 +58,31 @@ const DOM_IDS = {
 // Constants Toasts
 // ====================================================
 const TOAST_MESSAGES = {
+  // Auth
+  loginSuccess: 'Login realizado com sucesso',
+  loginError: 'E-mail ou senha inválidos',
+  signupSuccess: 'Conta criada com sucesso! Faça login para continuar',
+  signupError: 'Erro ao criar conta',
+  authError: 'Erro de autenticação',
+  sessionExpired: 'Sessão expirada. Faça login novamente',
+  // Folders
   folderCreated: 'Pasta criada com sucesso',
   folderUpdated: 'Pasta atualizada com sucesso',
   folderError: 'Erro ao criar pasta',
+  folderDeleted: 'Pasta removida com sucesso',
+  folderDeleteError: 'Erro ao remover pasta',
+  folderNameMismatch: 'O nome digitado não confere com o nome da pasta',
+  // Prompts
   promptCreated: 'Prompt criado com sucesso',
   promptUpdated: 'Prompt atualizado com sucesso',
   promptDeleted: 'Prompt removido com sucesso',
   promptError: 'Erro ao processar prompt',
-  folderDeleted: 'Pasta removida com sucesso',
-  folderDeleteError: 'Erro ao remover pasta',
-  folderNameMismatch: 'O nome digitado não confere com o nome da pasta',
+  // Limits
   limitReached: 'Limite do plano Free atingido (5 prompts)',
   premiumActivated: 'Premium ativado até',
   invalidKey: 'Chave inválida',
   premiumFeature: 'Recurso Premium - Ative o Premium para usar esta funcionalidade',
+  // Share/Export/Import
   shareSuccess: 'Prompt copiado para a área de transferência!',
   shareError: 'Falha ao compartilhar prompt',
   exportSuccess: 'Pasta exportada com sucesso!',

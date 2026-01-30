@@ -3,8 +3,11 @@
   "name": "Prompt DRIVE",
   "version": "1.0.0",
   "description": "Gerenciador de prompts para Chrome",
-  "permissions": ["sidePanel", "activeTab", "scripting", "tabs"],
+  "permissions": ["sidePanel", "activeTab", "scripting", "tabs", "storage"],
   "host_permissions": ["https://www.sample.com/*"],
+  "background": {
+    "service_worker": "ext/worker.js"
+  },
   "side_panel": {
     "default_path": "index.html"
   },

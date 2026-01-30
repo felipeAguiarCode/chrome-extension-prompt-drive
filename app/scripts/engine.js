@@ -3,160 +3,65 @@
 // =========================
 
 const engine = {
-  // Initialize application - load seed data
+  // Initialize application - load user data from API
   async initialize() {
     stateManager.setState({ ui: { ...stateManager.getState().ui, loading: true } });
 
     try {
-      const seedData = await this.loadSeedData();
+      const userData = await api.loadCurrentUserData();
+      if (!userData) {
+        throw new Error('Usuário não autenticado');
+      }
+
+      // Normalizar dados do usuario
       const folders = {};
       const prompts = {};
       const folderPrompts = {};
-      const isNewFormat = seedData.user && seedData.profile && Array.isArray(seedData.folders) &&
-        seedData.folders.length > 0 && seedData.folders[0].prompts !== undefined;
 
-      if (isNewFormat) {
-        seedData.folders.forEach(folder => {
-          folders[folder.id] = {
-            id: folder.id,
-            name: folder.name,
-            created_at: folder.created_at,
-            updated_at: folder.updated_at
-          };
-          folderPrompts[folder.id] = [];
-          (folder.prompts || []).forEach(p => {
-            prompts[p.id] = {
-              id: p.id,
-              folderId: folder.id,
-              name: p.name,
-              content: p.content,
-              created_at: p.created_at,
-              updated_at: p.updated_at
-            };
-            folderPrompts[folder.id].push(p.id);
-          });
-        });
-        const userFromSeed = {
-          id: seedData.user.id,
-          name: seedData.user.name,
-          plan: seedData.profile.plan,
-          licenseKey: stateManager.getState().user.licenseKey,
-          licenseExpiry: stateManager.getState().user.licenseExpiry,
-          createdAt: stateManager.getState().user.createdAt,
-          updatedAt: stateManager.getState().user.updatedAt
+      userData.folders.forEach(folder => {
+        folders[folder.id] = {
+          id: folder.id,
+          name: folder.name,
+          created_at: folder.created_at,
+          updated_at: folder.updated_at
         };
-        stateManager.setState({
-          user: userFromSeed,
-          data: { folders, prompts, folderPrompts },
-          profile: seedData.profile,
-          subscription: seedData.subscription,
-          ui: { ...stateManager.getState().ui, loading: false, error: null }
-        });
-      } else {
-        seedData.folders.forEach(folder => {
-          folders[folder.id] = {
-            id: folder.id,
-            name: folder.name,
-            created_at: folder.created_at ?? new Date(folder.createdAt || Date.now()).toISOString(),
-            updated_at: folder.updated_at ?? new Date(folder.updatedAt || Date.now()).toISOString()
+        folderPrompts[folder.id] = [];
+        (folder.prompts || []).forEach(p => {
+          prompts[p.id] = {
+            id: p.id,
+            folderId: folder.id,
+            name: p.name,
+            content: p.content,
+            created_at: p.created_at,
+            updated_at: p.updated_at
           };
-          folderPrompts[folder.id] = [];
+          folderPrompts[folder.id].push(p.id);
         });
-        seedData.prompts.forEach(prompt => {
-          const folderId = prompt.folderId;
-          prompts[prompt.id] = {
-            id: prompt.id,
-            folderId,
-            name: prompt.name ?? prompt.nome,
-            content: prompt.content ?? prompt.conteudo,
-            created_at: prompt.created_at ?? new Date(prompt.createdAt || Date.now()).toISOString(),
-            updated_at: prompt.updated_at ?? new Date(prompt.updatedAt || Date.now()).toISOString()
-          };
-          if (!folderPrompts[folderId]) folderPrompts[folderId] = [];
-          folderPrompts[folderId].push(prompt.id);
-        });
-        stateManager.setState({
-          data: { folders, prompts, folderPrompts },
-          ui: { ...stateManager.getState().ui, loading: false, error: null }
-        });
-      }
+      });
+
+      const currentState = stateManager.getState();
+      stateManager.setState({
+        user: {
+          id: userData.user.id,
+          name: userData.user.name,
+          plan: userData.profile.plan,
+          licenseKey: currentState.user.licenseKey,
+          licenseExpiry: currentState.user.licenseExpiry,
+          createdAt: currentState.user.createdAt,
+          updatedAt: currentState.user.updatedAt
+        },
+        profile: userData.profile,
+        subscription: userData.subscription,
+        data: { folders, prompts, folderPrompts },
+        ui: { ...currentState.ui, loading: false, error: null }
+      });
     } catch (error) {
       console.error('Error initializing:', error);
       stateManager.setState({
         ui: { ...stateManager.getState().ui, loading: false, error: { message: error.message } }
       });
+      throw error; // Propagar para app.js tratar
     }
-  },
-
-  // Load seed data with robust encoding handling
-  async loadSeedData() {
-    const paths = ['./data/seed.json', '/data/seed.json', 'data/seed.json'];
-    
-    for (const path of paths) {
-      try {
-        const response = await fetch(path);
-        if (!response.ok) continue;
-        
-        // Read as text first
-        const text = await response.text();
-        
-        // Clean BOM and zero-width characters
-        const cleanText = text.trim().replace(/^[\uFEFF\u200B-\u200D\u2060]/g, '');
-        
-        const data = JSON.parse(cleanText);
-        return data;
-      } catch (error) {
-        console.warn(`Failed to load from ${path}:`, error.message);
-        continue;
-      }
-    }
-
-    // Fallback inline data (new format)
-    console.warn('Using fallback seed data');
-    return {
-      user: { id: 'user-1', name: 'Usuário' },
-      profile: { stripe_customer_id: null, plan: 'free' },
-      subscription: null,
-      folders: [
-        {
-          id: 'folder-1',
-          name: 'Marketing',
-          created_at: new Date(1704067200000).toISOString(),
-          updated_at: new Date(1704067200000).toISOString(),
-          prompts: [
-            {
-              id: 'prompt-1',
-              name: 'Post para Redes Sociais',
-              content: 'Crie um post engajador para [plataforma] sobre [tema]. Inclua uma chamada para ação clara e use uma linguagem [tom].',
-              created_at: new Date(1704067200000).toISOString(),
-              updated_at: new Date(1704067200000).toISOString()
-            },
-            {
-              id: 'prompt-2',
-              name: 'Email Marketing',
-              content: 'Escreva um email de marketing para promover [produto/serviço]. O email deve ser persuasivo, mas não agressivo, e destacar os principais benefícios.',
-              created_at: new Date(1704070800000).toISOString(),
-              updated_at: new Date(1704070800000).toISOString()
-            }
-          ]
-        },
-        {
-          id: 'folder-2',
-          name: 'Desenvolvimento',
-          created_at: new Date(1704153600000).toISOString(),
-          updated_at: new Date(1704153600000).toISOString(),
-          prompts: [
-            {
-              id: 'prompt-3',
-              name: 'Revisão de Código',
-              content: 'Revise o seguinte código [código] e forneça feedback sobre: performance, segurança, legibilidade e boas práticas.',
-              created_at: new Date(1704153600000).toISOString(),
-              updated_at: new Date(1704153600000).toISOString()
-            }
-          ]
-        }
-      ]
-    };
   },
 
   // Create folder

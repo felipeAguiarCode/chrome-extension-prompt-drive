@@ -12,16 +12,18 @@
   <link rel="stylesheet" href="app/styles/components/prompt.css">
   <link rel="stylesheet" href="app/styles/components/dialogs.css">
   <link rel="stylesheet" href="app/styles/components/forms.css">
+  <link rel="stylesheet" href="app/styles/components/auth.css">
   <link rel="stylesheet" href="app/styles/responsive.css">
 </head>
 
 <body>
   <!-- =========================
-      Header
+      Auth Screen
   ========================= -->
-  <header class="header">
-    <div class="header__left">
-      <div class="header__left-top">
+  <section id="authScreen" class="auth-container" style="display: none;">
+    <!-- Login View -->
+    <div id="loginView" class="auth-card">
+      <div class="auth-header">
         <div class="logo">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
             stroke-linejoin="round">
@@ -32,66 +34,154 @@
             <line x1="12" y1="22.08" x2="12" y2="12"></line>
           </svg>
         </div>
-        <div>
-          <h1 class="header__title">PromptDrive</h1>
-          <p class="header__slogan">Organize seus prompts</p>
+        <h1>PromptDrive</h1>
+        <p>Organize seus prompts</p>
+      </div>
+      <form id="loginForm" class="auth-form">
+        <div class="form-group">
+          <label for="loginEmail" class="form-label">E-mail</label>
+          <input type="email" id="loginEmail" name="email" class="form-input" required autofocus>
         </div>
+        <div class="form-group">
+          <label for="loginPassword" class="form-label">Senha</label>
+          <input type="password" id="loginPassword" name="password" class="form-input" required>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn--primary btn--full">Entrar</button>
+        </div>
+      </form>
+      <div class="auth-footer">
+        <button type="button" id="btnShowSignup" class="auth-link">Criar nova conta</button>
       </div>
     </div>
-    <div class="header__right">
-      <button id="btnCreateFolder" class="btn btn--icon" title="Nova pasta" aria-label="Criar nova pasta">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
-          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-          <line x1="12" y1="11" x2="12" y2="17"></line>
-          <line x1="9" y1="14" x2="15" y2="14"></line>
-        </svg>
-        <span>Nova pasta</span>
-      </button>
-      <button id="btnCreatePrompt" class="btn btn--primary" title="Novo prompt" aria-label="Criar novo prompt">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        <span>Novo prompt</span>
-      </button>
-      <button id="btnImportFolder" class="btn btn--icon" title="Importar pasta" aria-label="Importar pasta"
-        style="display: none;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-          <polyline points="17 8 12 3 7 8"></polyline>
-          <line x1="12" y1="3" x2="12" y2="15"></line>
-        </svg>
-        <span>Importar</span>
-      </button>
-      <button id="btnLicenseKey" class="btn btn--icon btn--key" title="Serial Key" aria-label="Ativar Premium">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-        </svg>
-      </button>
-      <span id="promptCounter" class="header__counter">0 / 5</span>
+
+    <!-- Signup View -->
+    <div id="signupView" class="auth-card" style="display: none;">
+      <div class="auth-header">
+        <div class="logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path
+              d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+            </path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+        </div>
+        <h1>Criar Conta</h1>
+        <p>Junte-se ao PromptDrive</p>
+      </div>
+      <form id="signupForm" class="auth-form">
+        <div class="form-group">
+          <label for="signupName" class="form-label">Nome</label>
+          <input type="text" id="signupName" name="name" class="form-input" required autofocus>
+        </div>
+        <div class="form-group">
+          <label for="signupEmail" class="form-label">E-mail</label>
+          <input type="email" id="signupEmail" name="email" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label for="signupPassword" class="form-label">Senha</label>
+          <input type="password" id="signupPassword" name="password" class="form-input" required minlength="6">
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn--primary btn--full">Criar conta</button>
+        </div>
+      </form>
+      <div class="auth-footer">
+        <button type="button" id="btnShowLogin" class="auth-link">Voltar ao login</button>
+      </div>
     </div>
-  </header>
+
+    <!-- Redirecting View -->
+    <div id="redirectingView" class="auth-card auth-card--redirecting" style="display: none;">
+      <div class="spinner"></div>
+      <p>Redirecionando...</p>
+    </div>
+  </section>
 
   <!-- =========================
-      Main Content
+      App Screen
   ========================= -->
-  <main id="mainContent" class="main-content">
-    <div id="foldersContainer" class="folders-container">
-      <!-- Folders and prompts will be rendered here -->
-    </div>
-  </main>
+  <div id="appScreen" style="display: none;">
+    <!-- =========================
+        Header
+    ========================= -->
+    <header class="header">
+      <div class="header__left">
+        <div class="header__left-top">
+          <div class="logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path
+                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+              </path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+          </div>
+          <div>
+            <h1 class="header__title">PromptDrive</h1>
+            <p class="header__slogan">Organize seus prompts</p>
+          </div>
+        </div>
+      </div>
+      <div class="header__right">
+        <button id="btnCreateFolder" class="btn btn--icon" title="Nova pasta" aria-label="Criar nova pasta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+            <line x1="12" y1="11" x2="12" y2="17"></line>
+            <line x1="9" y1="14" x2="15" y2="14"></line>
+          </svg>
+          <span>Nova pasta</span>
+        </button>
+        <button id="btnCreatePrompt" class="btn btn--primary" title="Novo prompt" aria-label="Criar novo prompt">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>Novo prompt</span>
+        </button>
+        <button id="btnImportFolder" class="btn btn--icon" title="Importar pasta" aria-label="Importar pasta"
+          style="display: none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <span>Importar</span>
+        </button>
+        <button id="btnLicenseKey" class="btn btn--icon btn--key" title="Serial Key" aria-label="Ativar Premium">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </button>
+        <span id="promptCounter" class="header__counter">0 / 5</span>
+        <button id="btnLogout" class="btn btn--text" title="Sair" aria-label="Fazer logout">Sair</button>
+      </div>
+    </header>
 
-  <!-- =========================
-      Footer
-  ========================= -->
-  <footer class="footer">
-    <span id="userPlanBadge" class="plan-badge plan-badge--free">Plano Gratuito</span>
-  </footer>
+    <!-- =========================
+        Main Content
+    ========================= -->
+    <main id="mainContent" class="main-content">
+      <div id="foldersContainer" class="folders-container">
+        <!-- Folders and prompts will be rendered here -->
+      </div>
+    </main>
+
+    <!-- =========================
+        Footer
+    ========================= -->
+    <footer class="footer">
+      <span id="userPlanBadge" class="plan-badge plan-badge--free">Plano Gratuito</span>
+    </footer>
+  </div>
 
   <!-- =========================
       Dialogs
@@ -274,7 +364,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script src="app/scripts/constants.js"></script>
   <script src="app/scripts/states.js"></script>
   <script src="app/scripts/service.js"></script>
