@@ -1,49 +1,56 @@
 {
+  "user": {
+    "id": "c1f9e6c2-3c1d-4e1a-b0b2-8b7c0f5a9d21",
+    "name": "João Silva"
+  },
+  "profile": {
+    "stripe_customer_id": "cus_Q8fKJd9s73Lx2A",
+    "plan": "premium"
+  },
+  "subscription": {
+    "id": "ab91f6a2-42e1-4b7f-9b55-9e8c7f0d1123",
+    "status": "active",
+    "period_start": "2026-01-01T00:00:00.000Z",
+    "period_end": "2026-02-01T00:00:00.000Z",
+    "cancel_at_period_end": false
+  },
   "folders": [
-    { "id": "folder-1", "name": "Marketing", "createdAt": 1704067200000, "updatedAt": 1704067200000 },
-    { "id": "folder-2", "name": "Desenvolvimento", "createdAt": 1704153600000, "updatedAt": 1704153600000 },
-    { "id": "folder-3", "name": "Suporte", "createdAt": 1704240000000, "updatedAt": 1704240000000 }
-  ],
-  "prompts": [
     {
-      "id": "prompt-1",
-      "folderId": "folder-1",
-      "nome": "Post para Redes Sociais",
-      "conteudo": "Crie um post engajador para [plataforma] sobre [tema]. Inclua uma chamada para ação clara e use uma linguagem [tom].",
-      "createdAt": 1704067200000,
-      "updatedAt": 1704067200000
+      "id": "8e0b7f92-0c6a-4d8c-b6c1-1b7a0c3d2f10",
+      "name": "MarketingShare",
+      "created_at": "2026-01-10T14:12:43.123Z",
+      "updated_at": "2026-01-10T14:12:43.123Z",
+      "prompts": [
+        {
+          "id": "3a4f2d1c-9b2a-4d77-9a91-0f1c5a4e7d11",
+          "name": "Resumo de reunião",
+          "content": "Crie um resumo objetivo da reunião a partir das anotações abaixo...",
+          "created_at": "2026-01-10T14:20:01.000Z",
+          "updated_at": "2026-01-10T14:20:01.000Z"
+        }
+      ]
     },
     {
-      "id": "prompt-2",
-      "folderId": "folder-1",
-      "nome": "Email Marketing",
-      "conteudo": "Escreva um email de marketing para promover [produto/serviço]. O email deve ser persuasivo, mas não agressivo, e destacar os principais benefícios.",
-      "createdAt": 1704070800000,
-      "updatedAt": 1704070800000
-    },
-    {
-      "id": "prompt-3",
-      "folderId": "folder-2",
-      "nome": "Revisão de Código",
-      "conteudo": "Revise o seguinte código [código] e forneça feedback sobre: performance, segurança, legibilidade e boas práticas.",
-      "createdAt": 1704153600000,
-      "updatedAt": 1704153600000
-    },
-    {
-      "id": "prompt-4",
-      "folderId": "folder-2",
-      "nome": "Documentação de API",
-      "conteudo": "Crie documentação completa para a API [nome]. Inclua exemplos de requisições, respostas e casos de uso.",
-      "createdAt": 1704157200000,
-      "updatedAt": 1704157200000
-    },
-    {
-      "id": "prompt-5",
-      "folderId": "folder-3",
-      "nome": "Resposta de Suporte",
-      "conteudo": "Crie uma resposta profissional e empática para o seguinte problema do cliente: [descrição do problema]. A resposta deve ser clara e oferecer uma solução.",
-      "createdAt": 1704240000000,
-      "updatedAt": 1704240000000
+      "id": "9f1c8g03-1d7b-5f9d-c7d2-2c8b1g6b0e32",
+      "name": "Marketing",
+      "created_at": "2026-01-10T14:15:00.000Z",
+      "updated_at": "2026-01-10T14:15:00.000Z",
+      "prompts": [
+        {
+          "id": "4b5g3e2d-0a3b-5e88-0b02-1g2d6b5f8e22",
+          "name": "Post para Redes Sociais",
+          "content": "Crie um post engajador para [plataforma] sobre [tema]. Inclua uma chamada para ação clara e use uma linguagem [tom].",
+          "created_at": "2026-01-10T14:20:02.000Z",
+          "updated_at": "2026-01-10T14:20:02.000Z"
+        },
+        {
+          "id": "5c6h4f3e-1b4c-6f99-1c13-2h3e7c6g9f33",
+          "name": "Email Marketing",
+          "content": "Escreva um email de marketing para promover [produto/serviço]. O email deve ser persuasivo, mas não agressivo, e destacar os principais benefícios.",
+          "created_at": "2026-01-10T14:20:03.000Z",
+          "updated_at": "2026-01-10T14:20:03.000Z"
+        }
+      ]
     }
   ]
 }

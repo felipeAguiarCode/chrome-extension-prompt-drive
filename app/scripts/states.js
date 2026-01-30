@@ -6,6 +6,7 @@ const createStateManager = () => {
   let state = {
     user: {
       id: 'user-1',
+      name: null,
       plan: 'free',
       licenseKey: null,
       licenseExpiry: null,
@@ -75,7 +76,7 @@ const createStateManager = () => {
     return promptIds
       .map(id => state.data.prompts[id])
       .filter(Boolean)
-      .sort((a, b) => a.nome.localeCompare(b.nome));
+      .sort((a, b) => (a.name ?? a.nome).localeCompare(b.name ?? b.nome));
   };
 
   const getFolderById = (folderId) => {

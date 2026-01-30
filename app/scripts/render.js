@@ -129,9 +129,10 @@ const renderer = {
   },
 
   renderPrompt(prompt, state) {
-    const preview = prompt.conteudo.length > 100 
-      ? prompt.conteudo.substring(0, 100) + '...'
-      : prompt.conteudo;
+    const content = prompt.content ?? prompt.conteudo ?? '';
+    const preview = content.length > 100 
+      ? content.substring(0, 100) + '...'
+      : content;
     
     // Limit preview to 2 lines
     const previewLines = preview.split('\n').slice(0, 2).join('\n');
@@ -139,7 +140,7 @@ const renderer = {
     return `
       <div class="prompt-item" data-prompt-id="${prompt.id}">
         <div class="prompt-item__info">
-          <h4 class="prompt-item__name">${this.escapeHtml(prompt.nome)}</h4>
+          <h4 class="prompt-item__name">${this.escapeHtml(prompt.name ?? prompt.nome)}</h4>
           <p class="prompt-item__preview">${this.escapeHtml(previewLines)}</p>
         </div>
         <div class="prompt-item__actions">
@@ -332,10 +333,10 @@ const renderer = {
     const conteudoTextarea = document.querySelector('#promptEditDialog textarea[name="conteudo"]');
 
     if (nomeInput) {
-      nomeInput.value = prompt.nome;
+      nomeInput.value = prompt.name ?? prompt.nome;
     }
     if (conteudoTextarea) {
-      conteudoTextarea.value = prompt.conteudo;
+      conteudoTextarea.value = prompt.content ?? prompt.conteudo;
     }
   },
 
