@@ -78,6 +78,8 @@ const TOAST_MESSAGES = {
   promptUpdated: 'Prompt atualizado com sucesso',
   promptDeleted: 'Prompt removido com sucesso',
   promptError: 'Erro ao processar prompt',
+  promptDuplicateName: 'Já existe um prompt com esse nome nesta pasta',
+  promptFolderError: 'A pasta selecionada não pertence ao seu usuário',
   // Limits
   limitReached: 'Limite do plano Free atingido (5 prompts)',
   premiumActivated: 'Premium ativado até',

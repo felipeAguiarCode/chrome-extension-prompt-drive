@@ -304,20 +304,20 @@ const app = {
     // Create prompt form
     const promptForm = document.querySelector('#promptForm');
     if (promptForm) {
-      promptForm.addEventListener('submit', (e) => {
+      promptForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const folderId = formData.get('folderId');
         const nome = formData.get('nome');
         const conteudo = formData.get('conteudo');
-        engine.handleCreatePrompt(folderId, nome, conteudo);
+        await engine.handleCreatePrompt(folderId, nome, conteudo);
       });
     }
 
     // Edit prompt form
     const promptEditForm = document.querySelector('#promptEditForm');
     if (promptEditForm) {
-      promptEditForm.addEventListener('submit', (e) => {
+      promptEditForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const state = stateManager.getState();
         const promptId = state.ui.currentEditingPromptId;
@@ -327,18 +327,18 @@ const app = {
         const folderId = formData.get('folderId');
         const nome = formData.get('nome');
         const conteudo = formData.get('conteudo');
-        engine.handleUpdatePrompt(promptId, folderId, nome, conteudo);
+        await engine.handleUpdatePrompt(promptId, folderId, nome, conteudo);
       });
     }
 
     // Confirm delete prompt button
     const confirmDeletePromptBtn = document.querySelector('#confirmDeletePromptBtn');
     if (confirmDeletePromptBtn) {
-      confirmDeletePromptBtn.addEventListener('click', () => {
+      confirmDeletePromptBtn.addEventListener('click', async () => {
         const state = stateManager.getState();
         const promptId = state.ui.currentDeletingPromptId;
         if (promptId) {
-          engine.handleDeletePrompt(promptId);
+          await engine.handleDeletePrompt(promptId);
         }
       });
     }

@@ -193,10 +193,12 @@ const engine = {
   },
 
   // Create prompt
-  handleCreatePrompt(folderId, nome, conteudo) {
+  async handleCreatePrompt(folderId, nome, conteudo) {
     if (!stateManager.canCreatePrompt()) {
       this.showToast(TOAST_MESSAGES.limitReached);
-      chrome.tabs.create({ url: SALES_LANDING_PAGE_URL });
+      if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.create) {
+        chrome.tabs.create({ url: SALES_LANDING_PAGE_URL });
+      }
       return { success: false, error: TOAST_MESSAGES.limitReached };
     }
 
@@ -212,24 +214,48 @@ const engine = {
     }
 
     const state = stateManager.getState();
-    const promptId = generateUUID();
-    const now = new Date().toISOString();
-
-    const newPrompt = {
-      id: promptId,
+    const result = await api.createPrompt({
+      userId: state.user.id,
       folderId,
       name: nome.trim(),
-      content: conteudo.trim(),
-      created_at: now,
-      updated_at: now
+      content: conteudo.trim()
+    });
+
+    if (!result.success) {
+      if (result.code === 409) {
+        this.showToast(TOAST_MESSAGES.promptDuplicateName);
+      } else if (result.error && (result.error.includes('Free plan limit') || result.error.includes('limit reached'))) {
+        this.showToast(TOAST_MESSAGES.limitReached);
+      } else if (result.error && result.error.includes('Folder does not belong')) {
+        this.showToast(TOAST_MESSAGES.promptFolderError);
+      } else {
+        this.showToast(TOAST_MESSAGES.promptError);
+      }
+      return { success: false };
+    }
+
+    const prompt = result.prompt;
+    if (!prompt) {
+      this.showToast(TOAST_MESSAGES.promptError);
+      return { success: false };
+    }
+
+    const promptFolderId = prompt.folder_id || folderId;
+    const normalizedPrompt = {
+      id: prompt.id,
+      folderId: promptFolderId,
+      name: prompt.name,
+      content: prompt.content,
+      created_at: prompt.created_at,
+      updated_at: prompt.updated_at
     };
 
-    const newPrompts = { ...state.data.prompts, [promptId]: newPrompt };
+    const newPrompts = { ...state.data.prompts, [prompt.id]: normalizedPrompt };
     const newFolderPrompts = { ...state.data.folderPrompts };
-    if (!newFolderPrompts[folderId]) {
-      newFolderPrompts[folderId] = [];
+    if (!newFolderPrompts[promptFolderId]) {
+      newFolderPrompts[promptFolderId] = [];
     }
-    newFolderPrompts[folderId] = [...newFolderPrompts[folderId], promptId];
+    newFolderPrompts[promptFolderId] = [...newFolderPrompts[promptFolderId], prompt.id];
 
     stateManager.setState({
       data: {
@@ -239,18 +265,13 @@ const engine = {
       }
     });
 
-    api.createPrompt({
-      userId: state.user.id,
-      prompt: newPrompt
-    });
-
     this.showToast(TOAST_MESSAGES.promptCreated);
     this.closeDialog('promptDialog');
     return { success: true };
   },
 
   // Update prompt
-  handleUpdatePrompt(promptId, folderId, nome, conteudo) {
+  async handleUpdatePrompt(promptId, folderId, nome, conteudo) {
     const validationNome = validateName(nome);
     if (!validationNome.valid) {
       this.showToast(TOAST_MESSAGES.promptError);
@@ -269,25 +290,51 @@ const engine = {
       return { success: false, error: 'Prompt não encontrado' };
     }
 
-    const oldFolderId = prompt.folderId;
-    const updatedPrompt = {
-      ...prompt,
+    const result = await api.updatePrompt({
+      promptId,
       folderId,
       name: nome.trim(),
-      content: conteudo.trim(),
-      updated_at: new Date().toISOString()
+      content: conteudo.trim()
+    });
+
+    if (!result.success) {
+      if (result.code === 409) {
+        this.showToast(TOAST_MESSAGES.promptDuplicateName);
+      } else if (result.error && result.error.includes('Folder does not belong')) {
+        this.showToast(TOAST_MESSAGES.promptFolderError);
+      } else {
+        this.showToast(TOAST_MESSAGES.promptError);
+      }
+      return { success: false };
+    }
+
+    const updatedPrompt = result.prompt;
+    if (!updatedPrompt) {
+      this.showToast(TOAST_MESSAGES.promptUpdated);
+      this.closeDialog('promptEditDialog');
+      return { success: true };
+    }
+
+    const newFolderId = updatedPrompt.folder_id != null ? updatedPrompt.folder_id : folderId;
+    const oldFolderId = prompt.folderId;
+    const normalizedPrompt = {
+      id: updatedPrompt.id,
+      folderId: newFolderId,
+      name: updatedPrompt.name,
+      content: updatedPrompt.content,
+      created_at: updatedPrompt.created_at,
+      updated_at: updatedPrompt.updated_at
     };
 
-    const newPrompts = { ...state.data.prompts, [promptId]: updatedPrompt };
+    const newPrompts = { ...state.data.prompts, [promptId]: normalizedPrompt };
     const newFolderPrompts = { ...state.data.folderPrompts };
 
-    // If folder changed, move prompt
-    if (oldFolderId !== folderId) {
-      newFolderPrompts[oldFolderId] = newFolderPrompts[oldFolderId].filter(id => id !== promptId);
-      if (!newFolderPrompts[folderId]) {
-        newFolderPrompts[folderId] = [];
+    if (oldFolderId !== newFolderId) {
+      newFolderPrompts[oldFolderId] = (newFolderPrompts[oldFolderId] || []).filter(id => id !== promptId);
+      if (!newFolderPrompts[newFolderId]) {
+        newFolderPrompts[newFolderId] = [];
       }
-      newFolderPrompts[folderId].push(promptId);
+      newFolderPrompts[newFolderId] = [...newFolderPrompts[newFolderId], promptId];
     }
 
     stateManager.setState({
@@ -295,16 +342,6 @@ const engine = {
         ...state.data,
         prompts: newPrompts,
         folderPrompts: newFolderPrompts
-      }
-    });
-
-    api.updatePrompt({
-      userId: state.user.id,
-      promptId,
-      patch: {
-        folderId: updatedPrompt.folderId,
-        name: updatedPrompt.name,
-        content: updatedPrompt.content
       }
     });
 
@@ -314,7 +351,7 @@ const engine = {
   },
 
   // Delete prompt
-  handleDeletePrompt(promptId) {
+  async handleDeletePrompt(promptId) {
     const state = stateManager.getState();
     const prompt = state.data.prompts[promptId];
     if (!prompt) {
@@ -322,11 +359,18 @@ const engine = {
       return { success: false, error: 'Prompt não encontrado' };
     }
 
+    const result = await api.deletePrompt({ promptId });
+
+    if (!result.success) {
+      this.showToast(TOAST_MESSAGES.promptError);
+      return { success: false };
+    }
+
     const newPrompts = { ...state.data.prompts };
     delete newPrompts[promptId];
 
     const newFolderPrompts = { ...state.data.folderPrompts };
-    newFolderPrompts[prompt.folderId] = newFolderPrompts[prompt.folderId].filter(id => id !== promptId);
+    newFolderPrompts[prompt.folderId] = (newFolderPrompts[prompt.folderId] || []).filter(id => id !== promptId);
 
     stateManager.setState({
       data: {
@@ -334,11 +378,6 @@ const engine = {
         prompts: newPrompts,
         folderPrompts: newFolderPrompts
       }
-    });
-
-    api.deletePrompt({
-      userId: state.user.id,
-      promptId
     });
 
     this.showToast(TOAST_MESSAGES.promptDeleted);
