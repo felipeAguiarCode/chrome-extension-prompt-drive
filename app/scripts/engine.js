@@ -65,7 +65,7 @@ const engine = {
   },
 
   // Create folder
-  handleCreateFolder(folderName) {
+  async handleCreateFolder(folderName) {
     const validation = validateName(folderName);
     if (!validation.valid) {
       this.showToast(TOAST_MESSAGES.folderError);
@@ -73,28 +73,30 @@ const engine = {
     }
 
     const state = stateManager.getState();
-    const folderId = generateUUID();
-    const now = new Date().toISOString();
+    const result = await api.createFolder({
+      userId: state.user.id,
+      name: folderName.trim()
+    });
 
-    const newFolder = {
-      id: folderId,
-      name: folderName.trim(),
-      created_at: now,
-      updated_at: now
-    };
+    if (!result.success) {
+      if (result.code === 409) {
+        this.showToast(TOAST_MESSAGES.folderDuplicateName);
+      }
+      return { success: false };
+    }
+
+    const folder = result.folder;
+    if (!folder) {
+      this.showToast(TOAST_MESSAGES.folderError);
+      return { success: false };
+    }
 
     stateManager.setState({
       data: {
         ...state.data,
-        folders: { ...state.data.folders, [folderId]: newFolder },
-        folderPrompts: { ...state.data.folderPrompts, [folderId]: [] }
+        folders: { ...state.data.folders, [folder.id]: { id: folder.id, name: folder.name, created_at: folder.created_at, updated_at: folder.updated_at } },
+        folderPrompts: { ...state.data.folderPrompts, [folder.id]: [] }
       }
-    });
-
-    api.createFolder({
-      userId: state.user.id,
-      folderId,
-      folderName: newFolder.name
     });
 
     this.showToast(TOAST_MESSAGES.folderCreated);
@@ -103,7 +105,7 @@ const engine = {
   },
 
   // Update folder
-  handleUpdateFolder(folderId, newName) {
+  async handleUpdateFolder(folderId, newName) {
     const validation = validateName(newName);
     if (!validation.valid) {
       this.showToast(TOAST_MESSAGES.folderError);
@@ -117,24 +119,27 @@ const engine = {
       return { success: false, error: 'Pasta não encontrada' };
     }
 
-    const updatedFolder = {
-      ...folder,
-      name: newName.trim(),
-      updated_at: new Date().toISOString()
-    };
-
-    stateManager.setState({
-      data: {
-        ...state.data,
-        folders: { ...state.data.folders, [folderId]: updatedFolder }
-      }
-    });
-
-    api.updateFolder({
-      userId: state.user.id,
+    const result = await api.updateFolder({
       folderId,
-      folderName: updatedFolder.name
+      name: newName.trim()
     });
+
+    if (!result.success) {
+      if (result.code === 409) {
+        this.showToast(TOAST_MESSAGES.folderDuplicateName);
+      }
+      return { success: false };
+    }
+
+    const updatedFolder = result.folder;
+    if (updatedFolder) {
+      stateManager.setState({
+        data: {
+          ...state.data,
+          folders: { ...state.data.folders, [folderId]: { id: updatedFolder.id, name: updatedFolder.name, created_at: updatedFolder.created_at, updated_at: updatedFolder.updated_at } }
+        }
+      });
+    }
 
     this.showToast(TOAST_MESSAGES.folderUpdated);
     this.closeDialog('editFolderDialog');
@@ -142,7 +147,7 @@ const engine = {
   },
 
   // Delete folder
-  handleDeleteFolder(folderId, confirmName) {
+  async handleDeleteFolder(folderId, confirmName) {
     const state = stateManager.getState();
     const folder = state.data.folders[folderId];
     if (!folder) {
@@ -155,7 +160,13 @@ const engine = {
       return { success: false, error: TOAST_MESSAGES.folderNameMismatch };
     }
 
-    // Remove folder and all its prompts
+    const result = await api.deleteFolder({ folderId });
+
+    if (!result.success) {
+      return { success: false };
+    }
+
+    // Remove folder and all its prompts from state
     const newFolders = { ...state.data.folders };
     delete newFolders[folderId];
 
@@ -174,11 +185,6 @@ const engine = {
         prompts: newPrompts,
         folderPrompts: newFolderPrompts
       }
-    });
-
-    api.deleteFolder({
-      userId: state.user.id,
-      folderId
     });
 
     this.showToast(TOAST_MESSAGES.folderDeleted);

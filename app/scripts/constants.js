@@ -72,6 +72,7 @@ const TOAST_MESSAGES = {
   folderDeleted: 'Pasta removida com sucesso',
   folderDeleteError: 'Erro ao remover pasta',
   folderNameMismatch: 'O nome digitado não confere com o nome da pasta',
+  folderDuplicateName: 'Já existe uma pasta com esse nome',
   // Prompts
   promptCreated: 'Prompt criado com sucesso',
   promptUpdated: 'Prompt atualizado com sucesso',

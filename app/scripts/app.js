@@ -4,6 +4,13 @@
 
 const app = {
   async init() {
+    api.setOnUnauthorized(async () => {
+      await api.clearToken();
+      engine.showToast(TOAST_MESSAGES.sessionExpired);
+      this.showAuthScreen();
+      this.attachAuthListeners();
+    });
+
     // Verificar token existente
     const token = await api.getStoredToken();
 
@@ -162,6 +169,8 @@ const app = {
 
 
   attachEventListeners() {
+    if (this._appEventListenersAttached) return;
+
     // Header buttons
     const btnCreateFolder = document.querySelector(DOM_IDS.btnCreateFolder);
     const btnCreatePrompt = document.querySelector(DOM_IDS.btnCreatePrompt);
@@ -246,24 +255,26 @@ const app = {
         }
       });
     });
+
+    this._appEventListenersAttached = true;
   },
 
   attachFormListeners() {
     // Create folder form
     const folderForm = document.querySelector('#folderForm');
     if (folderForm) {
-      folderForm.addEventListener('submit', (e) => {
+      folderForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const name = formData.get('name');
-        engine.handleCreateFolder(name);
+        await engine.handleCreateFolder(name);
       });
     }
 
     // Edit folder form
     const editFolderForm = document.querySelector('#editFolderForm');
     if (editFolderForm) {
-      editFolderForm.addEventListener('submit', (e) => {
+      editFolderForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const state = stateManager.getState();
         const folderId = state.ui.currentEditingFolderId;
@@ -271,14 +282,14 @@ const app = {
 
         const formData = new FormData(e.target);
         const name = formData.get('name');
-        engine.handleUpdateFolder(folderId, name);
+        await engine.handleUpdateFolder(folderId, name);
       });
     }
 
     // Delete folder form
     const deleteFolderForm = document.querySelector('#deleteFolderForm');
     if (deleteFolderForm) {
-      deleteFolderForm.addEventListener('submit', (e) => {
+      deleteFolderForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const state = stateManager.getState();
         const folderId = state.ui.currentDeletingFolderId;
@@ -286,7 +297,7 @@ const app = {
 
         const formData = new FormData(e.target);
         const confirmName = formData.get('confirmName');
-        engine.handleDeleteFolder(folderId, confirmName);
+        await engine.handleDeleteFolder(folderId, confirmName);
       });
     }
 
