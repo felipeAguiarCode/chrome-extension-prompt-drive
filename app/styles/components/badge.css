@@ -18,6 +18,4 @@
 .plan-badge--premium {
   background-color: transparent;
   color: var(--color-text);
-  border: 1px solid #28A745;
-  padding: var(--spacing-xs) var(--spacing-md);
 }

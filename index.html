@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PromptDrive</title>
+  <title>Prompt Drive</title>
   <link rel="stylesheet" href="app/styles/main.css">
   <link rel="stylesheet" href="app/styles/components/buttons.css">
   <link rel="stylesheet" href="app/styles/components/badge.css">
@@ -34,7 +34,7 @@
             <line x1="12" y1="22.08" x2="12" y2="12"></line>
           </svg>
         </div>
-        <h1>PromptDrive</h1>
+        <h1>Prompt Drive</h1>
         <p>Organize seus prompts</p>
       </div>
       <form id="loginForm" class="auth-form">
@@ -121,7 +121,7 @@
             </svg>
           </div>
           <div>
-            <h1 class="header__title">PromptDrive</h1>
+            <h1 class="header__title">Prompt Drive</h1>
             <p class="header__slogan">Organize seus prompts</p>
           </div>
         </div>
@@ -154,15 +154,7 @@
           </svg>
           <span>Importar</span>
         </button>
-        <button id="btnLicenseKey" class="btn btn--icon btn--key" title="Serial Key" aria-label="Ativar Premium">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-          </svg>
-        </button>
         <span id="promptCounter" class="header__counter">0 / 5</span>
-        <button id="btnLogout" class="btn btn--text" title="Sair" aria-label="Fazer logout">Sair</button>
       </div>
     </header>
 
@@ -180,6 +172,18 @@
     ========================= -->
     <footer class="footer">
       <span id="userPlanBadge" class="plan-badge plan-badge--free">Plano Gratuito</span>
+      <div class="footer__actions">
+        <button id="btnLicenseKey" class="btn btn--icon btn--key" title="Serial Key" aria-label="Ativar Premium">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M12 12v8"></path>
+            <path d="M8 20h8"></path>
+            <path d="M10 16h4"></path>
+          </svg>
+        </button>
+        <button id="btnLogout" class="btn btn--text" title="Sair" aria-label="Fazer logout">Sair</button>
+      </div>
     </footer>
   </div>
 

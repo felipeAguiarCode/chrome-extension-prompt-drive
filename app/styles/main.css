@@ -164,12 +164,18 @@ body {
 .footer {
   padding: var(--spacing-md);
   border-top: none;
-  background-color: var(--color-bg-main);
+  background-color: var(--color-bg);
   flex-shrink: 0;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   min-height: 48px;
+}
+
+.footer__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
 }
 
 /* =========================

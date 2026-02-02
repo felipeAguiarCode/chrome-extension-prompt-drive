@@ -19,6 +19,28 @@
   }
 }
 
+/* Narrow screens (685px or less): header icon-only buttons, no wrap */
+@media (max-width: 685px) {
+  .header {
+    flex-wrap: nowrap;
+  }
+
+  .header__right {
+    flex-wrap: nowrap;
+  }
+
+  #btnCreateFolder span,
+  #btnCreatePrompt span {
+    display: none;
+  }
+
+  #btnCreateFolder,
+  #btnCreatePrompt {
+    padding: var(--spacing-sm);
+    min-width: 36px;
+  }
+}
+
 /* Medium screens (768px and up) */
 @media (min-width: 768px) {
   .header {
