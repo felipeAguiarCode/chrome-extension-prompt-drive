@@ -199,7 +199,11 @@ const app = {
 
     if (btnLicenseKey) {
       btnLicenseKey.addEventListener('click', () => {
-        engine.openDialog('licenseDialog');
+        if (stateManager.isFreePlan()) {
+          engine.openDialog('licenseDialog');
+        } else {
+          engine.showToast(TOAST_MESSAGES.alreadyPremium);
+        }
       });
     }
 
@@ -346,11 +350,11 @@ const app = {
     // License form
     const licenseForm = document.querySelector('#licenseForm');
     if (licenseForm) {
-      licenseForm.addEventListener('submit', (e) => {
+      licenseForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const licenseKey = formData.get('licenseKey');
-        engine.handleActivatePremium(licenseKey);
+        await engine.handleActivatePremium(licenseKey);
       });
     }
 

@@ -11,11 +11,6 @@ const generateUUID = () => {
   });
 };
 
-// Validate license key
-const validateLicenseKey = (key) => {
-  return key === GOD_KEY_TO_PREMIUM_ACTIVATE;
-};
-
 // Parse and validate JSON
 const parseJSON = (text) => {
   try {

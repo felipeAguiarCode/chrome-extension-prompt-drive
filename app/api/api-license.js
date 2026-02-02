@@ -2,9 +2,10 @@
 // API License - Activate License Key
 // =========================
 
-function activateLicenseKey(payload) {
-  console.log('[API] activateLicenseKey', payload);
+async function activateLicenseKey(payload) {
   // Future: fetch POST /api/licenses/activate
+  // Until backend exists, no key is valid
+  return { success: false };
 }
 
 Object.assign(api, { activateLicenseKey });
