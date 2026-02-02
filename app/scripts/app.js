@@ -4,10 +4,6 @@
 
 const app = {
   async init() {
-    // Criar cliente Supabase
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    window.supabaseClient = supabase;
-
     // Verificar token existente
     const token = await api.getStoredToken();
 
@@ -17,18 +13,7 @@ const app = {
       return;
     }
 
-    // Configurar sessao do Supabase com o token
-    try {
-      await supabase.auth.setSession({ access_token: token, refresh_token: '' });
-    } catch (error) {
-      console.warn('Failed to set session:', error);
-      await api.clearToken();
-      this.showAuthScreen();
-      this.attachAuthListeners();
-      return;
-    }
-
-    // Tentar inicializar aplicacao
+    // Tentar inicializar aplicacao (carrega dados via fetch com o token)
     try {
       renderer.initialize();
       this.attachEventListeners();
@@ -36,7 +21,6 @@ const app = {
       this.showAppScreen();
     } catch (error) {
       console.error('Error initializing app:', error);
-      // Token invalido ou expirado
       await api.clearToken();
       this.showAuthScreen();
       this.attachAuthListeners();
@@ -80,11 +64,7 @@ const app = {
   },
 
   async handleLogout() {
-    await api.clearToken();
-    // Limpar sessao do Supabase
-    if (window.supabaseClient) {
-      await window.supabaseClient.auth.signOut();
-    }
+    await api.logout();
     this.showAuthScreen();
     this.attachAuthListeners();
   },
@@ -116,12 +96,7 @@ const app = {
           engine.showToast(TOAST_MESSAGES.loginSuccess);
           this.showRedirecting();
 
-          // Configurar sessao e reinicializar app
           try {
-            await window.supabaseClient.auth.setSession({
-              access_token: result.data.access_token,
-              refresh_token: result.data.refresh_token || ''
-            });
             renderer.initialize();
             this.attachEventListeners();
             await engine.initialize();

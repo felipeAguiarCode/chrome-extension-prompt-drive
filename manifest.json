@@ -4,7 +4,10 @@
   "version": "1.0.0",
   "description": "Gerenciador de prompts para Chrome",
   "permissions": ["sidePanel", "activeTab", "scripting", "tabs", "storage"],
-  "host_permissions": ["https://www.sample.com/*"],
+  "host_permissions": [
+    "https://www.sample.com/*",
+    "https://etzlgzpyshwdijyucsog.supabase.co/*"
+  ],
   "background": {
     "service_worker": "ext/worker.js"
   },
