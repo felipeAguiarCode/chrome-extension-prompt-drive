@@ -43,8 +43,6 @@ const engine = {
           id: userData.user.id,
           name: userData.user.name,
           plan: userData.profile.plan,
-          licenseKey: currentState.user.licenseKey,
-          licenseExpiry: currentState.user.licenseExpiry,
           createdAt: currentState.user.createdAt,
           updatedAt: currentState.user.updatedAt
         },

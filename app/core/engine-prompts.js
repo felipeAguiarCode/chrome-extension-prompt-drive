@@ -5,9 +5,7 @@
 async function handleCreatePrompt(folderId, nome, conteudo) {
   if (!stateManager.canCreatePrompt()) {
     engine.showToast(TOAST_MESSAGES.limitReached);
-    if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.create) {
-      chrome.tabs.create({ url: SALES_LANDING_PAGE_URL });
-    }
+    engine.openDialog('licenseDialog');
     return { success: false, error: TOAST_MESSAGES.limitReached };
   }
 
@@ -35,6 +33,7 @@ async function handleCreatePrompt(folderId, nome, conteudo) {
       engine.showToast(TOAST_MESSAGES.promptDuplicateName);
     } else if (result.error && (result.error.includes('Free plan limit') || result.error.includes('limit reached'))) {
       engine.showToast(TOAST_MESSAGES.limitReached);
+      engine.openDialog('licenseDialog');
     } else if (result.error && result.error.includes('Folder does not belong')) {
       engine.showToast(TOAST_MESSAGES.promptFolderError);
     } else {

@@ -4,9 +4,41 @@
 
 const renderer = {
   initialize() {
-    // Subscribe to state changes
+    this.populatePlansDialog();
     stateManager.subscribe((state) => {
       this.render(state);
+    });
+  },
+
+  populatePlansDialog() {
+    const container = document.querySelector('#plansContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    Object.entries(PLANS).forEach(([key, plan]) => {
+      const card = document.createElement('div');
+      card.className = `plan-card plan-card--${key}`;
+      const nameEl = document.createElement('h3');
+      nameEl.className = 'plan-card__name';
+      nameEl.textContent = plan.name;
+      card.appendChild(nameEl);
+      const list = document.createElement('ul');
+      list.className = 'plan-card__features';
+      plan.features.forEach(({ text, included }) => {
+        const li = document.createElement('li');
+        li.className = `plan-card__feature plan-card__feature--${included ? 'included' : 'excluded'}`;
+        li.textContent = text;
+        list.appendChild(li);
+      });
+      card.appendChild(list);
+      if (plan.ctaLabel) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.id = 'btnStripeCheckout';
+        btn.className = 'btn btn--primary plan-card__cta';
+        btn.textContent = plan.ctaLabel;
+        card.appendChild(btn);
+      }
+      container.appendChild(card);
     });
   },
 
@@ -51,7 +83,7 @@ const renderer = {
         </svg>`;
         licenseBtn.classList.add('btn--key');
         licenseBtn.classList.remove('btn--premium-status');
-        licenseBtn.title = 'Serial Key';
+        licenseBtn.title = 'Planos';
       }
     }
   },

@@ -8,8 +8,6 @@ const createStateManager = () => {
       id: 'user-1',
       name: null,
       plan: 'free',
-      licenseKey: null,
-      licenseExpiry: null,
       createdAt: Date.now(),
       updatedAt: Date.now()
     },

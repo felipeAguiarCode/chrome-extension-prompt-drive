@@ -173,7 +173,7 @@
     <footer class="footer">
       <span id="userPlanBadge" class="plan-badge plan-badge--free">Plano Gratuito</span>
       <div class="footer__actions">
-        <button id="btnLicenseKey" class="btn btn--icon btn--key" title="Serial Key" aria-label="Ativar Premium">
+        <button id="btnLicenseKey" class="btn btn--icon btn--key" title="Planos" aria-label="Ver planos">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
             stroke-linejoin="round">
             <circle cx="12" cy="8" r="4"></circle>
@@ -330,21 +330,15 @@
     </div>
   </div>
 
-  <!-- License Dialog -->
+  <!-- Plans Dialog (Free vs Pro) -->
   <div id="licenseDialog" class="dialog" role="dialog" aria-hidden="true" aria-labelledby="licenseDialogTitle">
     <div class="dialog__overlay"></div>
-    <div class="dialog__content">
-      <h2 id="licenseDialogTitle" class="dialog__title">Ativar Premium</h2>
-      <form id="licenseForm" class="dialog__form">
-        <div class="form-group">
-          <label for="licenseKey" class="form-label">Chave de Licença</label>
-          <input type="text" id="licenseKey" name="licenseKey" class="form-input" required autofocus>
-        </div>
-        <div class="form-actions">
-          <button type="button" class="btn btn--secondary" data-action="close-dialog">Cancelar</button>
-          <button type="submit" class="btn btn--primary">Ativar</button>
-        </div>
-      </form>
+    <div class="dialog__content dialog__content--plans">
+      <h2 id="licenseDialogTitle" class="dialog__title">Planos</h2>
+      <div class="plans-comparison" id="plansContainer"></div>
+      <div class="form-actions form-actions--end">
+        <button type="button" class="btn btn--secondary" data-action="close-dialog">Fechar</button>
+      </div>
     </div>
   </div>
 

@@ -189,7 +189,7 @@ const app = {
       btnCreatePrompt.addEventListener('click', () => {
         if (!stateManager.canCreatePrompt()) {
           engine.showToast(TOAST_MESSAGES.limitReached);
-          chrome.tabs.create({ url: SALES_LANDING_PAGE_URL });
+          engine.openDialog('licenseDialog');
           return;
         }
         this.populateFolderSelect('#promptFolderId');
@@ -347,14 +347,11 @@ const app = {
       });
     }
 
-    // License form
-    const licenseForm = document.querySelector('#licenseForm');
-    if (licenseForm) {
-      licenseForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const licenseKey = formData.get('licenseKey');
-        await engine.handleActivatePremium(licenseKey);
+    // Stripe checkout (Plans dialog)
+    const btnStripeCheckout = document.querySelector('#btnStripeCheckout');
+    if (btnStripeCheckout) {
+      btnStripeCheckout.addEventListener('click', () => {
+        engine.openStripeCheckout();
       });
     }
 

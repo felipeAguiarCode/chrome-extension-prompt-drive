@@ -80,3 +80,66 @@
   font-size: 16px;
   color: var(--color-text);
 }
+
+/* Plans comparison (Free vs Pro) */
+.dialog__content--plans {
+  max-width: 560px;
+}
+
+.plans-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.plan-card {
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-light, var(--color-bg-main));
+}
+
+.plan-card--pro {
+  border-color: var(--color-premium);
+  position: relative;
+}
+
+.plan-card__name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text);
+}
+
+.plan-card--pro .plan-card__name {
+  color: var(--color-premium);
+}
+
+.plan-card__features {
+  list-style: none;
+  margin-bottom: var(--spacing-md);
+}
+
+.plan-card__features li {
+  padding: var(--spacing-xs) 0;
+  color: var(--color-text-light);
+  font-size: 14px;
+}
+
+.plan-card__feature--included::before {
+  content: "✅ ";
+}
+
+.plan-card__feature--excluded::before {
+  content: "❌ ";
+}
+
+.plan-card__cta {
+  width: 100%;
+  margin-top: var(--spacing-sm);
+}
+
+.form-actions--end {
+  justify-content: flex-end;
+}

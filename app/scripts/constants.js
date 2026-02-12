@@ -16,6 +16,32 @@ const SUPABASE_ANON_KEY = 'sb_publishable_j4obQ3BcN9ZF9DvwmBMCtg_UT4i6ZLu';
 // ====================================================
 const SALES_LANDING_PAGE_URL = 'https://www.sample.com';
 
+// Stripe Checkout (Payment Link)
+// ====================================================
+const STRIPE_CHECKOUT_BASE = 'https://buy.stripe.com/test_3cI8wR9h0c2haF9cWM4sE00';
+
+// Plans (Free vs Pro) - used in modal
+// ====================================================
+const PLANS = {
+  free: {
+    name: 'Free',
+    features: [
+      { text: 'Limite de até 5 prompts', included: true },
+      { text: 'Importar Pastas', included: false },
+      { text: 'Exportar pastas', included: false }
+    ]
+  },
+  pro: {
+    name: 'Pro',
+    features: [
+      { text: 'Prompts ilimitados', included: true },
+      { text: 'Importar Pastas', included: true },
+      { text: 'Exportar pastas', included: true }
+    ],
+    ctaLabel: 'Garantir Premium Agora!'
+  }
+};
+
 // Constants Storage Keys
 // ====================================================
 const STORAGE_KEY_ACCESS_TOKEN = 'USER_ACCESS_TOKEN';
@@ -85,6 +111,7 @@ const TOAST_MESSAGES = {
   invalidKey: 'Chave inválida',
   alreadyPremium: 'Você já é premium',
   premiumFeature: 'Recurso Premium - Ative o Premium para usar esta funcionalidade',
+  redirectingToCheckout: 'Redirecionando ao checkout...',
   // Share/Export/Import
   shareSuccess: 'Prompt copiado para a área de transferência!',
   shareError: 'Falha ao compartilhar prompt',
