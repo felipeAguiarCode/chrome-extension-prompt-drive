@@ -3,7 +3,7 @@
   "name": "Prompt DRIVE",
   "version": "1.0.0",
   "description": "Gerenciador de universal de prompts para ferramentas de IA.",
-  "homepage_url": "https://www.promptdrive.com",
+  "homepage_url": "https://github.com/felipeAguiarCode/chrome-extension-prompt-drive",
   "icons": {
     "16": "ext/icons/16_favicon.png",
     "32": "ext/icons/32_display.png",
