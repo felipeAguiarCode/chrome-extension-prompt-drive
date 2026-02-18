@@ -8,6 +8,7 @@
   border-radius: var(--border-radius);
   font-size: 14px;
   font-weight: 500;
+  letter-spacing: 0.01em;
   cursor: pointer;
   transition: var(--transition);
   background-color: transparent;
@@ -16,17 +17,18 @@
   align-items: center;
   justify-content: center;
   gap: var(--spacing-xs);
-  min-height: 36px;
-  min-width: 36px;
+  min-height: 38px;
+  min-width: 38px;
 }
 
 .btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--color-bg-hover);
 }
 
 .btn--primary {
   background-color: var(--color-primary);
   color: white;
+  font-weight: 500;
 }
 
 .btn--primary:hover {
@@ -40,7 +42,7 @@
 }
 
 .btn--secondary:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--color-bg-hover);
 }
 
 .btn--danger {
@@ -49,7 +51,7 @@
 }
 
 .btn--danger:hover {
-  background-color: #c5221f;
+  background-color: #b83d3d;
 }
 
 .btn--icon {
@@ -69,39 +71,39 @@
 }
 
 .btn--key {
-  color: #ffd700;
+  color: var(--color-primary);
 }
 
 .btn--key svg {
-  color: #ffd700;
-  stroke: #ffd700;
+  color: var(--color-primary);
+  stroke: var(--color-primary);
 }
 
 .btn--key:hover {
-  background-color: rgba(255, 215, 0, 0.1);
+  background-color: var(--color-bg-hover);
 }
 
 .btn--key:hover svg {
-  color: #ffed4e;
-  stroke: #ffed4e;
+  color: var(--color-primary-dark);
+  stroke: var(--color-primary-dark);
 }
 
 .btn--premium-status {
-  color: #28A745;
+  color: var(--color-success);
 }
 
 .btn--premium-status svg {
-  color: #28A745;
-  stroke: #28A745;
+  color: var(--color-success);
+  stroke: var(--color-success);
 }
 
 .btn--premium-status:hover {
-  background-color: rgba(40, 167, 69, 0.1);
+  background-color: rgba(40, 167, 69, 0.08);
 }
 
 .btn--premium-status:hover svg {
-  color: #34ce57;
-  stroke: #34ce57;
+  color: var(--color-success);
+  stroke: var(--color-success);
 }
 
 .btn--text {

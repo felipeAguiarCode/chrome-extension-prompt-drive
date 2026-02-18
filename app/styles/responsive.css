@@ -19,6 +19,14 @@
   }
 }
 
+/* Very narrow screens (530px or less): hide header title and slogan */
+@media (max-width: 530px) {
+  .header__title,
+  .header__slogan {
+    display: none;
+  }
+}
+
 /* Narrow screens (685px or less): header icon-only buttons, no wrap */
 @media (max-width: 685px) {
   .header {
@@ -91,6 +99,7 @@
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
+
 
 /* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {

@@ -22,8 +22,12 @@
   padding: var(--spacing-md);
   cursor: pointer;
   user-select: none;
-  background-color: var(--color-bg-folder);
-  margin-bottom: 2px;
+  background-color: var(--color-bg);
+  margin-bottom: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  box-shadow: 0 1px 3px var(--color-shadow);
+  transition: var(--transition);
 }
 
 .folder-item__info {
@@ -39,7 +43,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text);
+  color: var(--color-primary);
   transition: transform 0.2s ease;
 }
 
@@ -58,7 +62,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text);
+  color: var(--color-primary);
 }
 
 .folder-item__icon svg {
@@ -69,6 +73,7 @@
 .folder-item__name {
   font-weight: 600;
   font-size: 15px;
+  letter-spacing: -0.01em;
   color: var(--color-text);
 }
 
@@ -97,7 +102,7 @@
   justify-content: center;
   border-radius: var(--border-radius);
   transition: var(--transition);
-  color: var(--color-text);
+  color: var(--color-primary);
 }
 
 .folder-item__action svg {
@@ -106,7 +111,7 @@
 }
 
 .folder-item__action:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--color-bg-hover);
 }
 
 .folder-item__content {

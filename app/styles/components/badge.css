@@ -3,19 +3,20 @@
    ========================= */
 
 .plan-badge {
-  padding: 0;
-  border-radius: 0;
-  font-size: 14px;
-  font-weight: 400;
+  padding: 4px 10px;
+  border-radius: var(--border-radius);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   text-transform: none;
 }
 
 .plan-badge--free {
-  background-color: transparent;
-  color: var(--color-text);
+  background-color: var(--color-bg-hover);
+  color: var(--color-text-secondary);
 }
 
 .plan-badge--premium {
-  background-color: transparent;
-  color: var(--color-text);
+  background-color: var(--color-primary);
+  color: white;
 }
